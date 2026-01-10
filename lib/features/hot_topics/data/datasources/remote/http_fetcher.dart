@@ -1,6 +1,5 @@
 ﻿import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
+import 'package:http/http.dart' as http;
 
 class FetchResponse {
   const FetchResponse({
@@ -23,9 +22,9 @@ abstract class HttpFetcher {
 }
 
 class DefaultHttpFetcher implements HttpFetcher {
-  DefaultHttpFetcher({HttpClient? client}) : _client = client ?? HttpClient();
+  DefaultHttpFetcher({http.Client? client}) : _client = client ?? http.Client();
 
-  final HttpClient _client;
+  final http.Client _client;
 
   @override
   Future<FetchResponse> get(
@@ -33,23 +32,14 @@ class DefaultHttpFetcher implements HttpFetcher {
     Map<String, String> headers = const {},
     Duration timeout = const Duration(seconds: 15),
   }) async {
-    final request = await _client.getUrl(uri).timeout(timeout);
-    headers.forEach(request.headers.set);
+    final response = await _client
+        .get(uri, headers: headers)
+        .timeout(timeout);
 
-    final response = await request.close().timeout(timeout);
-    final status = response.statusCode;
-
-    final bytes = await response.fold<List<int>>(<int>[], (buffer, chunk) {
-      buffer.addAll(chunk);
-      return buffer;
-    });
-    final body = utf8.decode(bytes, allowMalformed: true);
-
-    final responseHeaders = <String, String>{};
-    response.headers.forEach((name, values) {
-      if (values.isNotEmpty) responseHeaders[name] = values.join(',');
-    });
-
-    return FetchResponse(statusCode: status, body: body, headers: responseHeaders);
+    return FetchResponse(
+      statusCode: response.statusCode,
+      body: response.body,
+      headers: response.headers,
+    );
   }
 }

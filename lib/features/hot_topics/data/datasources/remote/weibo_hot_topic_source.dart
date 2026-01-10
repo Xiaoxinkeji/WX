@@ -1,5 +1,4 @@
 ﻿import 'dart:convert';
-import 'dart:io';
 
 import '../../../domain/entities/topic_source.dart';
 import '../../models/hot_topic_model.dart';
@@ -33,7 +32,7 @@ class WeiboHotTopicSource implements HotTopicSource {
   Future<List<HotTopicModel>> fetchHotTopics() async {
     final response = await _fetcher.get(_hotUri, headers: _headers);
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw HttpException('Weibo hotSearch failed: ${response.statusCode}');
+      throw Exception('Weibo hotSearch failed: ${response.statusCode}');
     }
     return parseHotTopics(response.body, fetchedAt: _now());
   }

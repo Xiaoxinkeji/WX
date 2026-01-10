@@ -1,5 +1,4 @@
 ﻿import 'dart:convert';
-import 'dart:io';
 
 import '../../../domain/entities/topic_source.dart';
 import '../../models/hot_topic_model.dart';
@@ -34,7 +33,7 @@ class Kr36HotTopicSource implements HotTopicSource {
   Future<List<HotTopicModel>> fetchHotTopics() async {
     final response = await _fetcher.get(_hotUri, headers: _headers);
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw HttpException('36Kr hot rank failed: ${response.statusCode}');
+      throw Exception('36Kr hot rank failed: ${response.statusCode}');
     }
     return parseHotTopics(response.body, fetchedAt: _now());
   }
