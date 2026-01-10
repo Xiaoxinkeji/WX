@@ -38,7 +38,7 @@ jobs:
         run: flutter test --coverage
 
       - name: Build web
-        run: flutter build web --release --base-href "/wechat_writing_assistant/"
+        run: flutter build web --release --base-href "/WX/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

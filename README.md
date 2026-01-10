@@ -1,7 +1,7 @@
 # 微信公众号写作助手
 
-[![Deploy](https://github.com/YOUR_USERNAME/wechat_writing_assistant/actions/workflows/deploy.yml/badge.svg)](https://github.com/YOUR_USERNAME/wechat_writing_assistant/actions/workflows/deploy.yml)
-[![Tests](https://github.com/YOUR_USERNAME/wechat_writing_assistant/actions/workflows/test.yml/badge.svg)](https://github.com/YOUR_USERNAME/wechat_writing_assistant/actions/workflows/test.yml)
+[![Deploy](https://github.com/Xiaoxinkeji/WX/actions/workflows/deploy.yml/badge.svg)](https://github.com/Xiaoxinkeji/WX/actions/workflows/deploy.yml)
+[![Tests](https://github.com/Xiaoxinkeji/WX/actions/workflows/test.yml/badge.svg)](https://github.com/Xiaoxinkeji/WX/actions/workflows/test.yml)t.yml)
 
 一个基于 Flutter 的跨平台微信公众号写作助手，提供热点追踪、AI 写作辅助、文章管理、数据分析和一键发布功能。
 
@@ -16,12 +16,12 @@
 ## 🚀 快速开始
 
 ### 在线体验
-访问 [https://YOUR_USERNAME.github.io/wechat_writing_assistant/](https://YOUR_USERNAME.github.io/wechat_writing_assistant/)
+访问 [https://xiaoxinkeji.github.io/WX/](https://xiaoxinkeji.github.io/WX/)
 
 ### 本地运行
 ```bash
-git clone https://github.com/YOUR_USERNAME/wechat_writing_assistant.git
-cd wechat_writing_assistant
+git clone https://github.com/Xiaoxinkeji/WX.git
+cd WX
 flutter pub get
 flutter run -d chrome
 ```
