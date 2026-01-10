@@ -115,7 +115,7 @@ class _HotTopicsPageState extends ConsumerState<HotTopicsPage> {
                       : ListView.separated(
                           physics: const AlwaysScrollableScrollPhysics(),
                           itemCount: state.topics.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 4),
+                          separatorBuilder: (context, index) => const SizedBox(height: 4),
                           itemBuilder: (context, index) {
                             return HotTopicCard(topic: state.topics[index]);
                           },

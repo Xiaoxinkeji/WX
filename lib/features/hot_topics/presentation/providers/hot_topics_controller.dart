@@ -3,9 +3,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/topic_source.dart';
-import '../../domain/usecases/get_hot_topics.dart';
-import '../../domain/usecases/refresh_hot_topics.dart';
-import '../../domain/usecases/search_hot_topics.dart';
 import 'hot_topics_providers.dart';
 import 'hot_topics_state.dart';
 
