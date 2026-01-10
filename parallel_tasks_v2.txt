@@ -1,0 +1,107 @@
+---TASK---
+id: task-1
+backend: codex
+workdir: .
+dependencies:
+---CONTENT---
+Task: task-1 - 核心基础设施搭建
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/app/, lib/core/network/, lib/core/database/, lib/core/storage/, lib/core/error/, lib/core/utils/, lib/shared/providers/, lib/shared/theme/, lib/shared/widgets/, test/core/**, test/shared/**
+Test: flutter test test/core test/shared --coverage --coverage-path=coverage/task-1.lcov.info
+Deliverables:
+- 目录结构（app/core/features/shared）
+- Riverpod 2.x 状态管理配置
+- Dio 网络层（拦截器、错误处理、重试机制）
+- Drift 数据库（表定义、DAO、迁移脚本）
+- flutter_secure_storage 安全存储封装
+- 统一错误模型和异常处理
+- 工具类（日期格式化、验证器）
+- 通用 UI 组件（按钮、输入框、加载指示器）
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-2
+backend: codex
+workdir: .
+dependencies: task-1
+---CONTENT---
+Task: task-2 - 热点扫描模块
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/hot_topics/domain/, lib/features/hot_topics/data/, lib/features/hot_topics/presentation/, test/features/hot_topics/**
+Test: flutter test test/features/hot_topics --coverage --coverage-path=coverage/task-2.lcov.info
+Deliverables:
+- HotTopicSource 抽象层
+- 多平台数据源适配器（微博、知乎、百度、36氪）
+- 缓存策略（TTL 机制）
+- Repository + UseCase（获取热点、刷新、搜索）
+- Riverpod 状态管理
+- 热点列表页面和组件
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-3
+backend: codex
+workdir: .
+dependencies: task-1
+---CONTENT---
+Task: task-3 - AI 写作模块
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/ai_writing/domain/, lib/features/ai_writing/data/, lib/features/ai_writing/presentation/, lib/core/services/prompt_template_service.dart, test/features/ai_writing/**
+Test: flutter test test/features/ai_writing --coverage --coverage-path=coverage/task-3.lcov.info
+Deliverables:
+- AI 提供商抽象层（OpenAI、Claude、Gemini）
+- 标题生成、内容扩写、改写功能
+- 流式响应处理
+- 提示词模板管理
+- Repository + UseCase
+- Riverpod 状态管理（流式状态）
+- AI 写作页面和组件
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-4
+backend: gemini
+workdir: .
+dependencies: task-1
+---CONTENT---
+Task: task-4 - 文章管理模块
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/articles/domain/, lib/features/articles/data/, lib/features/articles/presentation/, test/features/articles/**
+Test: flutter test test/features/articles --coverage --coverage-path=coverage/task-4.lcov.info
+Deliverables:
+- 文章 CRUD 操作
+- 富文本/Markdown 编辑器
+- 自动保存草稿机制
+- 版本历史管理
+- 搜索过滤功能
+- 分类标签管理
+- Repository + UseCase
+- Riverpod 状态管理
+- 文章列表和编辑页面
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-5
+backend: gemini
+workdir: .
+dependencies: task-1,task-4
+---CONTENT---
+Task: task-5 - 数据仪表盘与微信发布模块
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/dashboard/**, lib/features/wechat_publish/**, test/features/dashboard/**, test/features/wechat_publish/**
+Test: flutter test test/features/dashboard test/features/wechat_publish --coverage --coverage-path=coverage/task-5.lcov.info
+Deliverables:
+- 数据指标计算（总文章数、爆款率、平均阅读、质量评分）
+- 图表展示组件（折线图、柱状图、饼图）
+- 微信公众号 API 集成（Token 管理、素材上传、草稿创建、文章发布）
+- 一键发布流程（预览、封面设置、摘要编辑）
+- 发布记录和重试机制
+- Repository + UseCase
+- Riverpod 状态管理
+- 仪表盘和发布页面
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告

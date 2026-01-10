@@ -1,0 +1,44 @@
+---TASK---
+id: task-4
+backend: claude
+workdir: .
+dependencies:
+---CONTENT---
+Task: task-4 - 文章管理模块
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/articles/domain/, lib/features/articles/data/, lib/features/articles/presentation/, test/features/articles/**
+Test: flutter test test/features/articles --coverage --coverage-path=coverage/task-4.lcov.info
+Deliverables:
+- 文章 CRUD 操作
+- 富文本/Markdown 编辑器
+- 自动保存草稿机制
+- 版本历史管理
+- 搜索过滤功能
+- 分类标签管理
+- Repository + UseCase
+- Riverpod 状态管理
+- 文章列表和编辑页面
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-5
+backend: claude
+workdir: .
+dependencies: task-4
+---CONTENT---
+Task: task-5 - 数据仪表盘与微信发布模块
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/dashboard/**, lib/features/wechat_publish/**, test/features/dashboard/**, test/features/wechat_publish/**
+Test: flutter test test/features/dashboard test/features/wechat_publish --coverage --coverage-path=coverage/task-5.lcov.info
+Deliverables:
+- 数据指标计算（总文章数、爆款率、平均阅读、质量评分）
+- 图表展示组件（折线图、柱状图、饼图）
+- 微信公众号 API 集成（Token 管理、素材上传、草稿创建、文章发布）
+- 一键发布流程（预览、封面设置、摘要编辑）
+- 发布记录和重试机制
+- Repository + UseCase
+- Riverpod 状态管理
+- 仪表盘和发布页面
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告

@@ -1,0 +1,322 @@
+---TASK---
+id: task-1
+backend: codex
+workdir: .
+dependencies:
+---CONTENT---
+Task: task-1 - 项目初始化与核心基础设施
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: pubspec.yaml, lib/core/**, lib/shared/**, test/core/**, test/shared/**
+Test: flutter test test/core --coverage && flutter test test/shared --coverage
+Deliverables:
+- 初始化 Flutter 项目
+- 配置依赖 (Riverpod, Drift, Dio, flutter_secure_storage 等)
+- 创建核心模块 (网络层、存储层、常量、工具类)
+- 建立项目文件结构 (features/, core/, shared/)
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-2
+backend: codex
+workdir: .
+dependencies: task-1
+---CONTENT---
+Task: task-2 - 用户认证与设置模块
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/auth/**, lib/features/settings/**, test/features/auth/**, test/features/settings/**
+Test: flutter test test/features/auth test/features/settings --coverage
+Deliverables:
+- 用户认证系统 (登录/登出)
+- API 密钥管理和加密存储
+- 微信 AppID/Secret 配置
+- 设置项持久化
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-3
+backend: gemini
+workdir: .
+dependencies: task-2
+---CONTENT---
+Task: task-3 - 设置页面 UI 实现
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/settings/presentation/**, lib/shared/widgets/**, test/features/settings/presentation/**
+Test: flutter test test/features/settings/presentation --coverage
+Deliverables:
+- 设置页面 UI (API 密钥输入、微信配置表单)
+- 主题切换功能
+- 表单验证和错误提示
+- 敏感信息遮罩显示
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-4
+backend: codex
+workdir: .
+dependencies: task-1
+---CONTENT---
+Task: task-4 - 热点追踪服务与数据层
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/hot_topics/data/**, lib/features/hot_topics/domain/**, lib/core/services/hot_topic_service.dart, test/features/hot_topics/**
+Test: flutter test test/features/hot_topics/data test/features/hot_topics/domain --coverage
+Deliverables:
+- 多平台热榜 API 集成 (微博、知乎、百度等)
+- 热点数据抓取和存储
+- 数据缓存和过期策略
+- 热点排序和过滤算法
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-5
+backend: gemini
+workdir: .
+dependencies: task-4
+---CONTENT---
+Task: task-5 - 热点追踪 UI 实现
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/hot_topics/presentation/**, test/features/hot_topics/presentation/**
+Test: flutter test test/features/hot_topics/presentation --coverage
+Deliverables:
+- 热榜列表页面
+- 搜索和过滤功能
+- 下拉刷新
+- 加载状态和错误提示
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-6
+backend: codex
+workdir: .
+dependencies: task-1,task-2
+---CONTENT---
+Task: task-6 - AI 写作服务与多提供商集成
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/ai_writing/data/**, lib/features/ai_writing/domain/**, lib/core/services/ai_service.dart, test/features/ai_writing/**
+Test: flutter test test/features/ai_writing/data test/features/ai_writing/domain --coverage
+Deliverables:
+- AI 提供商适配器 (OpenAI, Claude, Gemini)
+- 标题生成和内容扩写功能
+- 流式响应处理
+- 提示词模板管理
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-7
+backend: gemini
+workdir: .
+dependencies: task-6
+---CONTENT---
+Task: task-7 - AI 写作 UI 实现
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/ai_writing/presentation/**, test/features/ai_writing/presentation/**
+Test: flutter test test/features/ai_writing/presentation --coverage
+Deliverables:
+- AI 写作辅助界面
+- 提示词输入和模板选择
+- 流式生成结果实时显示
+- 多轮对话历史管理
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-8
+backend: codex
+workdir: .
+dependencies: task-1
+---CONTENT---
+Task: task-8 - 文章管理数据层与存储
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/articles/data/**, lib/features/articles/domain/**, lib/core/database/tables/articles.dart, test/features/articles/**
+Test: flutter test test/features/articles/data test/features/articles/domain --coverage
+Deliverables:
+- 文章 CRUD 操作
+- 草稿自动保存机制
+- 文章搜索和分类
+- 版本历史管理
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-9
+backend: gemini
+workdir: .
+dependencies: task-8
+---CONTENT---
+Task: task-9 - 富文本编辑器与文章编辑 UI
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/articles/presentation/editor/**, lib/features/articles/presentation/pages/**, lib/shared/widgets/rich_text_editor/**, test/features/articles/presentation/**
+Test: flutter test test/features/articles/presentation --coverage
+Deliverables:
+- 富文本编辑器 (加粗、斜体、列表等)
+- 图片上传和插入
+- 实时预览切换
+- 自动保存草稿
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-10
+backend: gemini
+workdir: .
+dependencies: task-8
+---CONTENT---
+Task: task-10 - 文章列表与管理 UI
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/articles/presentation/list/**, test/features/articles/presentation/list/**
+Test: flutter test test/features/articles/presentation/list --coverage
+Deliverables:
+- 文章列表页面
+- 搜索和过滤功能
+- 批量选择和删除
+- 列表项交互 (编辑、删除、发布)
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-11
+backend: codex
+workdir: .
+dependencies: task-1,task-2
+---CONTENT---
+Task: task-11 - 微信公众号 API 集成
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/wechat/data/**, lib/features/wechat/domain/**, lib/core/services/wechat_service.dart, test/features/wechat/**
+Test: flutter test test/features/wechat/data test/features/wechat/domain --coverage
+Deliverables:
+- Access Token 获取和刷新
+- 图片素材上传
+- 草稿箱文章创建和更新
+- 文章发布流程
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-12
+backend: gemini
+workdir: .
+dependencies: task-11
+---CONTENT---
+Task: task-12 - 微信发布 UI 实现
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/wechat/presentation/**, test/features/wechat/presentation/**
+Test: flutter test test/features/wechat/presentation --coverage
+Deliverables:
+- 微信发布界面
+- 发布预览渲染
+- 封面图片选择和裁剪
+- 摘要和作者信息编辑
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-13
+backend: codex
+workdir: .
+dependencies: task-1,task-11
+---CONTENT---
+Task: task-13 - 数据分析服务与存储
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/analytics/data/**, lib/features/analytics/domain/**, lib/core/database/tables/analytics.dart, test/features/analytics/**
+Test: flutter test test/features/analytics/data test/features/analytics/domain --coverage
+Deliverables:
+- 分析数据采集和存储
+- 时间序列数据聚合
+- 趋势计算和对比
+- 数据同步机制
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-14
+backend: gemini
+workdir: .
+dependencies: task-13
+---CONTENT---
+Task: task-14 - 数据分析仪表盘 UI
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/analytics/presentation/**, lib/shared/widgets/charts/**, test/features/analytics/presentation/**
+Test: flutter test test/features/analytics/presentation --coverage
+Deliverables:
+- 数据分析仪表盘
+- 图表展示 (折线图、柱状图、饼图)
+- 时间范围选择和数据刷新
+- 数据导出功能
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-15
+backend: codex
+workdir: .
+dependencies: task-1
+---CONTENT---
+Task: task-15 - 云备份服务实现
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/backup/data/**, lib/features/backup/domain/**, lib/core/services/backup_service.dart, test/features/backup/**
+Test: flutter test test/features/backup/data test/features/backup/domain --coverage
+Deliverables:
+- 数据序列化和压缩
+- 增量备份逻辑
+- 备份上传和下载
+- 数据恢复和冲突解决
+- 单元测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-16
+backend: gemini
+workdir: .
+dependencies: task-15
+---CONTENT---
+Task: task-16 - 云备份 UI 实现
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/backup/presentation/**, test/features/backup/presentation/**
+Test: flutter test test/features/backup/presentation --coverage
+Deliverables:
+- 云备份管理界面
+- 备份历史列表展示
+- 手动备份触发和进度
+- 数据恢复确认和执行
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-17
+backend: gemini
+workdir: .
+dependencies: task-3,task-5,task-7,task-10,task-12,task-14,task-16
+---CONTENT---
+Task: task-17 - 主页面与导航集成
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: lib/features/home/**, lib/main.dart, test/features/home/**
+Test: flutter test test/features/home --coverage
+Deliverables:
+- 应用主页面
+- 底部导航栏
+- 页面路由和状态保持
+- 启动页和引导页
+- Widget 测试覆盖率 ≥90%
+- 测试覆盖率报告
+
+---TASK---
+id: task-18
+backend: codex
+workdir: .
+dependencies: task-17
+---CONTENT---
+Task: task-18 - 集成测试与端到端测试
+Reference: @.claude/specs/wechat-writing-assistant/dev-plan.md
+Scope: integration_test/**, test/integration/**
+Test: flutter test integration_test --coverage
+Deliverables:
+- 集成测试用例 (用户注册登录、热点到AI写作、文章创建编辑发布、数据分析、云备份恢复)
+- 端到端测试
+- 跨模块数据流转验证
+- 测试覆盖率 ≥90%
+- 测试覆盖率报告
