@@ -293,6 +293,14 @@ func (r *SQLiteRepository) fetchAll(ctx context.Context) []fetchAttempt {
 		src := src
 		go func() {
 			defer wg.Done()
+
+			select {
+			case <-ctx.Done():
+				attempts[i] = fetchAttempt{err: ctx.Err()}
+				return
+			default:
+			}
+
 			if src == nil {
 				attempts[i] = fetchAttempt{err: errors.New("source is nil")}
 				return
@@ -558,12 +566,22 @@ func (r *SQLiteRepository) expectedSources() []domain.Source {
 }
 
 func sourceCaseOrder(column string, sources []domain.Source) string {
+	// Whitelist validation for column name to prevent SQL injection
+	if column != "source" && column != "a.source" {
+		panic("invalid column name for sourceCaseOrder: must be 'source' or 'a.source'")
+	}
+
 	var b strings.Builder
 	b.WriteString("CASE ")
 	b.WriteString(column)
 	for i, s := range sources {
+		// Validate source key contains only safe characters
+		key := s.Key()
+		if !isValidSourceKey(key) {
+			continue
+		}
 		b.WriteString(" WHEN '")
-		b.WriteString(s.Key())
+		b.WriteString(key)
 		b.WriteString("' THEN ")
 		b.WriteString(fmt.Sprintf("%d", i))
 	}
@@ -571,4 +589,17 @@ func sourceCaseOrder(column string, sources []domain.Source) string {
 	b.WriteString(fmt.Sprintf("%d", len(sources)))
 	b.WriteString(" END")
 	return b.String()
+}
+
+// isValidSourceKey validates that a source key contains only safe characters
+func isValidSourceKey(key string) bool {
+	if key == "" {
+		return false
+	}
+	for _, r := range key {
+		if !((r >= 'a' && r <= 'z') || (r >= '0' && r <= '9') || r == '_') {
+return false
+		}
+	}
+	return true
 }

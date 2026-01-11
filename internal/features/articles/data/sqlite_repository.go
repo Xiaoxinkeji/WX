@@ -865,6 +865,7 @@ func isUniqueConstraintErr(err error) bool {
 	if err == nil {
 		return false
 	}
-	msg := strings.ToLower(err.Error())
-	return strings.Contains(msg, "unique constraint") || strings.Contains(msg, "constraint failed")
+	msg := err.Error()
+	msgLower := strings.ToLower(msg)
+	return strings.Contains(msgLower, "unique constraint") || strings.Contains(msgLower, "constraint failed")
 }

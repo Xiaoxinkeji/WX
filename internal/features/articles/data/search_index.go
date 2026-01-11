@@ -7,6 +7,34 @@ import (
 	"strings"
 )
 
+// escapeFTS5Query escapes special characters in FTS5 queries to prevent syntax errors
+func escapeFTS5Query(query string) string {
+	// Remove or escape FTS5 special characters
+	replacer := strings.NewReplacer(
+		`"`, `""`,  // Escape double quotes
+		`*`, ``,    // Remove wildcards
+		`-`, ` `,   // Replace minus with space
+		`(`, ``,    // Remove parentheses
+		`)`, ``,
+		`{`, ``,    // Remove braces
+		`}`, ``,
+		`[`, ``,    // Remove brackets
+		`]`, ``,
+		`^`, ``,    // Remove caret
+		`:`, ``,    // Remove colon
+	)
+	escaped := replacer.Replace(query)
+
+	// Trim and wrap in double quotes for phrase matching
+	escaped = strings.TrimSpace(escaped)
+	if escaped == "" {
+		return `""`
+	}
+
+	// Use double quotes for exact phrase matching
+	return `"` + escaped + `"`
+}
+
 type SQLiteSearchIndex struct {
 	db *sql.DB
 }
@@ -63,13 +91,16 @@ func (s *SQLiteSearchIndex) SearchArticleIDs(ctx context.Context, query string, 
 		offset = 0
 	}
 
+	// Escape FTS5 special characters to prevent query syntax errors
+	escapedQuery := escapeFTS5Query(q)
+
 	rows, err := s.db.QueryContext(ctx, `
 SELECT article_id
 FROM article_fts
 WHERE article_fts MATCH ?
 ORDER BY bm25(article_fts)
 LIMIT ? OFFSET ?
-`, q, limit, offset)
+`, escapedQuery, limit, offset)
 	if err != nil {
 		return nil, err
 	}

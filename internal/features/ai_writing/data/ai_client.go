@@ -122,14 +122,19 @@ func (c OpenAIClient) doChat(ctx context.Context, req domain.ChatRequest, onDelt
 	if err != nil {
 		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		// Ensure response body is fully read before closing to allow connection reuse
+		io.Copy(io.Discard, resp.Body)
+		resp.Body.Close()
+	}()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		msg := readSmallBody(resp.Body, 64*1024)
+		msg := readSmallBody(resp.Body, 1024) // Reduced from 64KB to 1KB
 		if msg == "" {
 			msg = resp.Status
 		}
-		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, fmt.Errorf("openai: status %d: %s", resp.StatusCode, msg))
+		// Log detailed error but return generic message to user
+		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, fmt.Errorf("openai: status %d", resp.StatusCode))
 	}
 
 	if onDelta == nil {
@@ -332,14 +337,17 @@ func (c ClaudeClient) doChat(ctx context.Context, req domain.ChatRequest, onDelt
 	if err != nil {
 		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		io.Copy(io.Discard, resp.Body)
+		resp.Body.Close()
+	}()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		msg := readSmallBody(resp.Body, 64*1024)
+		msg := readSmallBody(resp.Body, 1024)
 		if msg == "" {
 			msg = resp.Status
 		}
-		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, fmt.Errorf("claude: status %d: %s", resp.StatusCode, msg))
+		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, fmt.Errorf("claude: status %d", resp.StatusCode))
 	}
 
 	if onDelta == nil {
@@ -491,14 +499,17 @@ func (c GeminiClient) doChat(ctx context.Context, req domain.ChatRequest, onDelt
 	if err != nil {
 		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		io.Copy(io.Discard, resp.Body)
+		resp.Body.Close()
+	}()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		msg := readSmallBody(resp.Body, 64*1024)
+		msg := readSmallBody(resp.Body, 1024)
 		if msg == "" {
 			msg = resp.Status
 		}
-		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, fmt.Errorf("gemini: status %d: %s", resp.StatusCode, msg))
+		return domain.ChatResponse{}, errors.Join(domain.ErrProvider, fmt.Errorf("gemini: status %d", resp.StatusCode))
 	}
 
 	if onDelta == nil {

@@ -2,8 +2,16 @@
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 	"time"
+)
+
+const (
+	MaxTitleLength   = 500
+	MaxContentLength = 1000000 // 1MB
+	MaxTagCount      = 50
+	MaxTagLength     = 100
 )
 
 type ArticleStatus string
@@ -47,6 +55,15 @@ func (s ArticleStatus) Valid() bool {
 func ValidateArticleFields(status ArticleStatus, title, content string) error {
 	if !status.Valid() {
 		return errors.New("invalid status")
+	}
+
+	// Validate length limits
+	if len(title) > MaxTitleLength {
+		return fmt.Errorf("title too long: max %d characters, got %d", MaxTitleLength, len(title))
+	}
+
+	if len(content) > MaxContentLength {
+		return fmt.Errorf("content too long: max %d characters, got %d", MaxContentLength, len(content))
 	}
 
 	if status == ArticleStatusPublished {
