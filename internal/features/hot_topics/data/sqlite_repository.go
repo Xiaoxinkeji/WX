@@ -208,7 +208,7 @@ func (r *SQLiteRepository) GetHotTopics(ctx context.Context, source *domain.Sour
 
 	r.cache.WriteHotTopics(nil, merged)
 	for _, a := range attempts {
-		if a.err == nil && len(a.topics) > 0 {
+		if a.err == nil && a.source.Valid() {
 			s := a.source
 			r.cache.WriteHotTopics(&s, a.topics)
 		}
